@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>circleMotion</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            height: 100%;
+        }
+
+        #canvas {
+            box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.5);
+            position: absolute;
+            left: 10%;
+            top: 5%;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <script src="../assets/components/Ball.js"></script>
+    <script>
+        let canvas = document.querySelector("#canvas"),
+            ctx = canvas.getContext("2d");
+        let w = canvas.width = 800, h = canvas.height = 600;
+        const ellipseBall = new Ball({
+            r: 35,
+            x: w / 2,
+            y: h / 2
+        }), circleBall = new Ball({
+            r: 35,
+            x: w / 2,
+            y: h / 2
+        });
+
+        let angle = 0,
+            speed = 0.2,
+            rx = 200,
+            ry = 80,
+            r = 250;
+
+        (function action() {
+            window.requestAnimationFrame(action);
+
+            ctx.clearRect(0, 0, w, h);
+            ctx.save();
+            ctx.translate(w / 2, h / 2);
+            ctx.scale(1, ry / rx);
+            ctx.beginPath();
+            ctx.arc(0, 0, rx, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.restore();
+
+            ellipseBall.x = w / 2 + rx * Math.cos(angle);
+            ellipseBall.y = h / 2 + ry * Math.sin(angle);
+
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(w / 2, h / 2, r, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.restore();
+
+            circleBall.x = w / 2 + r * Math.cos(angle);
+            circleBall.y = h / 2 + r * Math.sin(angle);
+
+            angle += 0.01;
+            angle %= Math.PI * 2;
+            ellipseBall.render(ctx);
+            circleBall.render(ctx);
+        })()
+
+
+    </script>
+</body>
+
+</html>
