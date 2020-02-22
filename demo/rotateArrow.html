@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rotateArrow</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            height: 100%;
+        }
+
+        #canvas {
+            box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.5);
+            position: absolute;
+            left: 10%;
+            top: 5%;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <script src="../assets/script/utils.js"></script>
+    <script src="../assets/components/Arrow.js"></script>
+    <script>
+        let canvas = document.querySelector("#canvas"),
+            ctx = canvas.getContext("2d");
+        let w = canvas.width = 800, h = canvas.height = 600;
+        let mouse = utils.getOffset(canvas);
+        const arrow = new Arrow({
+            x: w / 2,
+            y: h / 2,
+            w: 180,
+            h: 60
+        });
+        arrow.render(ctx);
+
+        canvas.onmousemove = (e) => {
+            ctx.clearRect(0, 0, w, h);
+
+            let dx = mouse.x - arrow.x,
+                dy = mouse.y - arrow.y;
+            let angle = Math.atan2(dy, dx);
+            arrow.rotation = angle;
+            arrow.render(ctx);
+        }
+
+    </script>
+</body>
+
+</html>
