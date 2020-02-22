@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>testAtan2</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            height: 100%;
+        }
+
+        #canvas {
+            box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.5);
+            position: absolute;
+            left: 10%;
+            top: 5%;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <script src="../assets/script/utils.js"></script>
+    <script>
+        let canvas = document.querySelector("#canvas"),
+            ctx = canvas.getContext("2d");
+        let w = canvas.width = 800, h = canvas.height = 600;
+        let mouse = utils.getOffset(canvas);
+        canvas.onmousemove = (e) => {
+            ctx.clearRect(0, 0, w, h);
+
+            let dx = mouse.x - w / 2,
+                dy = mouse.y - h / 2;
+            let angle = utils.toAngle(Math.atan2(dy, dx));
+            ctx.strokeText(angle,mouse.x,mouse.y);
+
+            drawSystem();
+            ctx.beginPath();
+            ctx.moveTo(w / 2, h / 2);
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.stroke();
+        }
+
+        function drawSystem() {
+            ctx.save();
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(0, h / 2);
+            ctx.lineTo(w, h / 2);
+
+            ctx.moveTo(w / 2, 0);
+            ctx.lineTo(w / 2, h);
+            ctx.stroke();
+            ctx.restore();
+        }
+
+    </script>
+</body>
+
+</html>
