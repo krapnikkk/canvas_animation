@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>surround</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            height: 100%;
+        }
+
+        #canvas {
+            box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.5);
+            position: absolute;
+            left: 10%;
+            top: 5%;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <script src="../assets/script/utils.js"></script>
+    <script src="../assets/components/Arrow.js"></script>
+    <script>
+        let canvas = document.querySelector("#canvas"),
+            ctx = canvas.getContext("2d");
+        let w = canvas.width = 800, h = canvas.height = 600;
+        const arrow = new Arrow({
+            x: w / 2,
+            y: h / 2,
+            w: 46,
+            h: 20
+        }).render(ctx);
+
+        let vx = 0, vy = 0, vr = 0, a = 0, f = 0.98;
+
+        window.addEventListener("keydown", (e) => {
+            switch (e.keyCode) {
+                case 37:
+                    vr = -5;
+                    arrow.rotation += utils.toRadian(vr);
+                    break;
+                case 39:
+                    vr = 5;
+                    arrow.rotation += utils.toRadian(vr);
+                    break;
+                case 38:
+                    a = 0.1;
+                    break;
+            }
+        });
+
+        window.addEventListener("keyup", (e) => {
+            a = 0;
+        });
+
+        (function action() {
+            ctx.clearRect(0, 0, w, h);
+
+            
+            let radian = arrow.rotation,
+                rx = Math.cos(radian) * a,
+                ry = Math.sin(radian) * a;
+            vx += rx;
+            vy += ry;
+
+            vx *= f;
+            vy *= f;
+
+            arrow.x += vx;
+            arrow.y += vy;
+
+            if (arrow.x - arrow.w / 2 >= w) {
+                arrow.x = 0 - arrow.w / 2;
+            } else if (arrow.x + arrow.w / 2 <= 0) {
+                arrow.x = w - arrow.w / 2;
+            }
+
+            if (arrow.y - arrow.h / 2 >= h) {
+                arrow.y = 0 - arrow.h / 2;
+            } else if (arrow.y + arrow.h / 2 <= 0) {
+                arrow.y = h - arrow.h / 2;
+            }
+
+
+            requestAnimationFrame(action);
+            arrow.render(ctx);
+        })();
+
+    </script>
+</body>
+
+</html>
