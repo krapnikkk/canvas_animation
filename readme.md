@@ -15,7 +15,7 @@
 | [组件跟随鼠标移动](https://krapnikkk.github.io/canvas_animation/demo/moveArrow.html) | 速度向量结合三角函数的实际应用 | [查看](./demo/moveArrow.html) |
 | [模拟重力加速度](https://krapnikkk.github.io/canvas_animation/demo/gravity.html) | 模拟重力加速度 | [查看](./demo/gravity.html) |
 | [小球喷泉](https://krapnikkk.github.io/canvas_animation/demo/fountain.html) | 环境越界和对象池的应用 | [查看](./demo/fountain.html) |
-| [屏幕环绕](https://krapnikkk.github.io/canvas_animation/demo/surround.html) | 环境越界至屏幕环绕 | [查看](./demo/surround.html) |
+| [屏幕环绕](https://krapnikkk.github.io/canvas_animation/demo/surround.html) | 环境越界之屏幕环绕 | [查看](./demo/surround.html) |
 
 [/placeholder]:p
 
