@@ -23,3 +23,7 @@ utils.toRadian = function (angle) {
 utils.toAngle = function (radian) {
     return radian * 180 / Math.PI;
 }
+utils.rectTest = function (point, rect){ 
+    // x < divx1 || x > divx2 || y < divy1 || y > divy2
+    return (point.x >= rect.x + rect.w/2 || point.x <= rect.x - rect.w/2 || point.y  >= rect.y+ rect.h/2 || point.y <= rect.y - rect.h/2);
+  };

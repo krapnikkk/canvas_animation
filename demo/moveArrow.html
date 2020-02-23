@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>moveArrow</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            height: 100%;
+        }
+
+        #canvas {
+            box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.5);
+            position: absolute;
+            left: 10%;
+            top: 5%;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <script src="../assets/script/utils.js"></script>
+    <script src="../assets/components/Arrow.js"></script>
+    <script>
+        let canvas = document.querySelector("#canvas"),
+            ctx = canvas.getContext("2d");
+        let w = canvas.width = 800, h = canvas.height = 600;
+        let mouse = utils.getOffset(canvas), speed = 3;
+        const arrow = new Arrow({
+            x: w / 2,
+            y: h / 2,
+            w: 180,
+            h: 60
+        }).render(ctx);
+
+        (function action() {
+            ctx.clearRect(0, 0, w, h);
+            if (utils.rectTest(mouse, arrow)) {
+                
+                let dx = mouse.x - arrow.x,
+                    dy = mouse.y - arrow.y;
+
+                let angle = Math.atan2(dy, dx),
+                    vx = speed * Math.cos(angle),
+                    vy = speed * Math.sin(angle);
+                arrow.x += vx;
+                arrow.y += vy;
+                arrow.rotation = angle;
+            }
+            requestAnimationFrame(action);
+            arrow.render(ctx);
+        })();
+
+    </script>
+</body>
+
+</html>
