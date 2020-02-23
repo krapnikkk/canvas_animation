@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>velocityVector</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            height: 100%;
+        }
+
+        #canvas {
+            box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.5);
+            position: absolute;
+            left: 10%;
+            top: 5%;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <script src="../assets/script/utils.js"></script>
+    <script src="../assets/components/Ball.js"></script>
+    <script>
+        let canvas = document.querySelector("#canvas"),
+            ctx = canvas.getContext("2d");
+        let w = canvas.width = 800, h = canvas.height = 600;
+        const complexBall = new Ball({
+            r: 35,
+            x: 50,
+            y: 50
+        }), explodedeBall = new Ball({
+            r: 35,
+            x: 0,
+            y: 0
+        });
+        complexBall.render(ctx);
+        explodedeBall.render(ctx);
+
+        let radian = utils.toRadian(30),
+            speed = 3,
+            speedx = Math.cos(radian) * speed,
+            speedy = Math.sin(radian) * speed,
+            vx = 2,
+            vy = 2;
+
+        (function action() {
+            window.requestAnimationFrame(action);
+            ctx.clearRect(0, 0, w, h);
+
+            complexBall.x += vx;
+            complexBall.y += vy;
+
+            explodedeBall.x += speedx;
+            explodedeBall.y += speedy;
+
+            complexBall.render(ctx);
+            explodedeBall.render(ctx);
+        })()
+
+
+    </script>
+</body>
+
+</html>

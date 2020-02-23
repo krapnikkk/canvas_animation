@@ -16,7 +16,7 @@ utils.eventWrapper = function (e) {
     return { x: pageX - left, y: pageY - top };
 }
 
-utils.toRad = function (angle) {
+utils.toRadian = function (angle) {
     return angle * Math.PI / 180;
 }
 
