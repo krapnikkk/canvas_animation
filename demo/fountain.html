@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fountain</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            height: 100%;
+        }
+
+        #canvas {
+            box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.5);
+            position: absolute;
+            left: 10%;
+            top: 5%;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <script src="../assets/script/utils.js"></script>
+    <script src="../assets/components/Ball.js"></script>
+    <script>
+        let canvas = document.querySelector("#canvas"),
+            ctx = canvas.getContext("2d");
+        let w = canvas.width = 800, h = canvas.height = 600;
+        let balls = [], g = 0.05;
+
+        for (let i = 0; i < 100; i++) {
+            balls.push(new Ball({
+                x: w / 2,
+                y: h,
+                r: Math.random() > 0.9 ? utils.randomPoint([25, 40]) : utils.randomPoint([15, 30]),
+                fillStyle: utils.randomColor(),
+                vx: utils.randomPoint([-3, 3]),
+                vy: utils.randomPoint([0, -10])
+            }));
+        }
+        function drawBall(ball) {
+            ball.x += ball.vx;
+            ball.y += ball.vy;
+            ball.vy += g;
+            if (ball.x - ball.r >= w || ball.x + ball.r <= 0 ||
+                ball.y - ball.r >= h ) {
+                ball.x = w /2;
+                ball.y = h ;
+                ball.vx = utils.randomPoint([-3, 3]);
+                ball.vy = utils.randomPoint([0, -10]);
+            }
+            ball.render(ctx);
+        }
+        (function action() {
+            window.requestAnimationFrame(action);
+            ctx.clearRect(0, 0, w, h);
+            balls.map(drawBall);
+        })()
+
+
+    </script>
+</body>
+
+</html>

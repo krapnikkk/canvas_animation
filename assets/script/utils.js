@@ -23,7 +23,17 @@ utils.toRadian = function (angle) {
 utils.toAngle = function (radian) {
     return radian * 180 / Math.PI;
 }
-utils.rectTest = function (point, rect){ 
-    // x < divx1 || x > divx2 || y < divy1 || y > divy2
-    return (point.x >= rect.x + rect.w/2 || point.x <= rect.x - rect.w/2 || point.y  >= rect.y+ rect.h/2 || point.y <= rect.y - rect.h/2);
-  };
+utils.rectTest = function (point, rect) {
+    return (point.x >= rect.x + rect.w / 2 || point.x <= rect.x - rect.w / 2 || point.y >= rect.y + rect.h / 2 || point.y <= rect.y - rect.h / 2);
+};
+
+utils.randomPoint = function (arr, int) {
+    const max = Math.max(...arr),
+        min = Math.min(...arr),
+        num = Math.random() * (max - min) + min;
+    return int ? Math.round(num) : num;
+}
+
+utils.randomColor = function () {
+    return `rgb(${utils.randomPoint([55, 255], true)}, ${utils.randomPoint([55, 255], true)}, ${utils.randomPoint([55, 255], true)})`;
+}
