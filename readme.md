@@ -13,6 +13,7 @@
 | [圆周运动](https://krapnikkk.github.io/canvas_animation/demo/circleMotion.html) | 正弦&余弦函数结合(Math.sin&Math.cos)实现圆周运动的实际应用 | [查看](./demo/circleMotion.html) |
 | [速度向量](https://krapnikkk.github.io/canvas_animation/demo/velocityVector.html) | 速度向量的分解与合成的实际应用 | [查看](./demo/velocityVector.html) |
 | [组件跟随鼠标移动](https://krapnikkk.github.io/canvas_animation/demo/moveArrow.html) | 速度向量结合三角函数的实际应用 | [查看](./demo/moveArrow.html) |
+| [模拟重力加速度](https://krapnikkk.github.io/canvas_animation/demo/gravity.html) | 模拟重力加速度 | [查看](./demo/gravity.html) |
 
 [/placeholder]:p
 
