@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>throwBall</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            height: 100%;
+        }
+
+        #canvas {
+            box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.5);
+            position: absolute;
+            left: 10%;
+            top: 5%;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <script src="../assets/script/utils.js"></script>
+    <script src="../assets/components/Ball.js"></script>
+    <script>
+        let canvas = document.querySelector("#canvas"),
+            ctx = canvas.getContext("2d");
+        let w = canvas.width = 800, h = canvas.height = 600;
+        let mouse = utils.getOffset(canvas),
+            dx = 0,
+            dy = 0,
+            isMouseMove = false,
+            g = 0.2,
+            vx = utils.randomPoint([-10, 10]),
+            vy = 12,
+            friction = 0.99,
+            bounce = -0.7,
+            startX = 0,
+            startY = 0;
+        let ball = new Ball({
+            x: w / 2,
+            y: h / 2,
+            r: 35
+        }).render(ctx);
+
+        canvas.addEventListener("mousedown", (e) => {
+            e.preventDefault();
+            if (ball.isPoint(mouse)) {
+                isMouseMove = true;
+                dx = mouse.x - ball.x;
+                dy = mouse.y - ball.y;
+                startX = ball.x;
+                startY = ball.y;
+                canvas.addEventListener("mousemove", moveBallFn);
+                canvas.addEventListener("mouseup", upBallFn);
+            }
+        })
+
+        function moveBallFn() {
+            ball.x = mouse.x - dx;
+            ball.y = mouse.y - dy;
+        }
+
+        function upBallFn() {
+            setSpeed();
+            isMouseMove = false;
+            canvas.removeEventListener("mousemove", moveBallFn);
+            canvas.removeEventListener("mouseup", upBallFn);
+        }
+
+        function bounceMove(ball) {
+            vy += g;
+            ball.x += vx;
+            ball.y += vy;
+
+            vx *= friction;
+            vy *= friction;
+
+            if (ball.x + ball.r >= w) {
+                ball.x = w - ball.r;
+                vx *= bounce;
+            } else if (ball.x - ball.r <= 0) {
+                ball.x = ball.r;
+                vx *= bounce;
+            }
+
+            if (ball.y + ball.r >= h) {
+                ball.y = h - ball.r;
+                vy *= bounce;
+            } else if (ball.y - ball.r <= 0) {
+                ball.y = ball.r;
+                vy *= bounce;
+            }
+        }
+
+        function setSpeed() {
+            vx = ball.x - startX;
+            vy = ball.y - startY;
+
+        }
+
+        (function action() {
+            window.requestAnimationFrame(action);
+            ctx.clearRect(0, 0, w, h);
+
+            if (!isMouseMove) {
+                bounceMove(ball)
+            }
+
+            ball.render(ctx);
+        })()
+
+
+    </script>
+</body>
+
+</html>
