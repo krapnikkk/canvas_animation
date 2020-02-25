@@ -17,6 +17,7 @@
 | [小球喷泉](https://krapnikkk.github.io/canvas_animation/demo/fountain.html) | 环境越界和对象池的应用 | [查看](./demo/fountain.html) |
 | [屏幕环绕](https://krapnikkk.github.io/canvas_animation/demo/surround.html) | 环境越界之屏幕环绕 | [查看](./demo/surround.html) |
 | [投掷小球](https://krapnikkk.github.io/canvas_animation/demo/throwBall.html) | 环境越界之反弹 | [查看](./demo/throwBall.html) |
+| [缓动小球](https://krapnikkk.github.io/canvas_animation/demo/easingBall.html) | 缓动动画的实现 | [查看](./demo/easingBall.html) |
 
 [/placeholder]:p
 

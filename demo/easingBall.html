@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>easingBall</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            height: 100%;
+        }
+
+        #canvas {
+            box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.5);
+            position: absolute;
+            left: 10%;
+            top: 5%;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <script src="../assets/script/utils.js"></script>
+    <script src="../assets/components/Ball.js"></script>
+    <script>
+        let canvas = document.querySelector("#canvas"),
+            ctx = canvas.getContext("2d");
+        let w = canvas.width = 800, h = canvas.height = 600;
+        let mouse = utils.getOffset(canvas),
+            dx = 0,
+            dy = 0,
+            isMouseDown = false,
+            easing = 0.1;
+        let ball = new Ball({
+            x: w / 2,
+            y: h / 2,
+            r: 35
+        }).render(ctx);
+
+        canvas.addEventListener("mousedown", (e) => {
+            e.preventDefault();
+            if (ball.isPoint(mouse)) {
+                isMouseDown = true;
+                dx = mouse.x - ball.x;
+                dy = mouse.y - ball.y;
+                canvas.addEventListener("mousemove", moveBallFn);
+                canvas.addEventListener("mouseup", upBallFn);
+            }
+        })
+
+        function moveBallFn() {
+            ball.x = mouse.x - dx;
+            ball.y = mouse.y - dy;
+        }
+
+        function upBallFn() {
+            isMouseDown = false;
+            canvas.removeEventListener("mousemove", moveBallFn);
+            canvas.removeEventListener("mouseup", upBallFn);
+        }
+
+        (function action() {
+            window.requestAnimationFrame(action);
+            ctx.clearRect(0, 0, w, h);
+
+            if (!isMouseDown) {
+                ball.x += (w / 2 - ball.x) * easing;
+                ball.y += (h / 2 - ball.y) * easing;
+            }
+
+            ball.render(ctx);
+        })()
+
+
+    </script>
+</body>
+
+</html>
