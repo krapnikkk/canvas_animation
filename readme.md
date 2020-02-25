@@ -19,6 +19,7 @@
 | [投掷小球](https://krapnikkk.github.io/canvas_animation/demo/throwBall.html) | 环境越界之反弹 | [查看](./demo/throwBall.html) |
 | [缓动小球](https://krapnikkk.github.io/canvas_animation/demo/easingBall.html) | 缓动动画的实现 | [查看](./demo/easingBall.html) |
 | [弹动小球](https://krapnikkk.github.io/canvas_animation/demo/springBall.html) | 弹动动画的实现 | [查看](./demo/springBall.html) |
+| [多物体弹动动画](https://krapnikkk.github.io/canvas_animation/demo/multipleSpringBall.html) | 多物体之间弹动动画的实现 | [查看](./demo/multipleSpringBall.html) |
 
 [/placeholder]:p
 

@@ -32,7 +32,7 @@
         let mouse = utils.getOffset(canvas),
             spring = 0.03,
             g = 2.5,
-            firction = 0.95;
+            friction = 0.95;
         let ball = new Ball({
             x: w / 2,
             y: h / 2,
@@ -52,8 +52,8 @@
             ball.vx += ax;
             ball.vy += ay;
 
-            ball.vx *= firction;
-            ball.vy *= firction;
+            ball.vx *= friction;
+            ball.vy *= friction;
             ball.vy += g;
 
             ball.x += ball.vx;

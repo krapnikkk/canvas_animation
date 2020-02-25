@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>springBall</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            height: 100%;
+        }
+
+        #canvas {
+            box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.5);
+            position: absolute;
+            left: 10%;
+            top: 5%;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <script src="../assets/script/utils.js"></script>
+    <script src="../assets/components/Ball.js"></script>
+    <script>
+        let canvas = document.querySelector("#canvas"),
+            ctx = canvas.getContext("2d");
+        let w = canvas.width = 800, h = canvas.height = 600;
+        let mouse = utils.getOffset(canvas),
+            springLength = 200,
+            spring = 0.03,
+            friction = 0.95,
+            balls = [],
+            draggedBall;
+
+        for (let i = 0; i < 8; i++) {
+            balls.push(new Ball({
+                x: utils.randomPoint([50, w - 50]),
+                y: utils.randomPoint([50, h - 50]),
+                r: 20
+            }));
+        }
+
+        canvas.addEventListener('mousedown', function (e) {
+            for (let ball of balls) {
+                if (ball.isPoint(mouse)) {
+                    ball.dragged = true;
+                    draggedBall = ball;
+                }
+            }
+        });
+
+        canvas.addEventListener('mousemove', function (e) {
+            if (draggedBall) {
+                draggedBall.x = mouse.x;
+                draggedBall.y = mouse.y;
+            }
+        });
+
+        canvas.addEventListener('mouseup', function (e) {
+            if (draggedBall) {
+                draggedBall.dragged = false;
+                draggedBall = null;
+            }
+        });
+
+        function springTo(b1, b2) {
+            let dx = b2.x - b1.x;
+            let dy = b2.y - b1.y;
+            let angle = Math.atan2(dy, dx);
+            let targetX = b2.x - springLength * Math.cos(angle);
+            let targetY = b2.y - springLength * Math.sin(angle);
+
+            b1.vx += (targetX - b1.x) * spring;
+            b1.vy += (targetY - b1.y) * spring;
+
+            b1.vx *= friction;
+            b1.vy *= friction;
+
+            b1.x += b1.vx;
+            b1.y += b1.vy;
+        }
+
+
+        (function action() {
+            window.requestAnimationFrame(action);
+            ctx.clearRect(0, 0, w, h);
+
+            ctx.beginPath();
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = 'rgb(0, 0, 0)';
+            for (let ball of balls) {
+                ctx.lineTo(ball.x, ball.y);
+            }
+            ctx.closePath();
+            ctx.stroke();
+
+            balls.forEach(function (item, i) {
+                if (!item.dragged) {
+                    let arrTemp = balls.concat();
+                    arrTemp.splice(i, 1);
+                    for (let ball of arrTemp) {
+                        springTo(item, ball);
+                    }
+                }
+                item.render(ctx);
+            });
+
+        })()
+
+
+    </script>
+</body>
+
+</html>
