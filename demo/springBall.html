@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>springBall</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            height: 100%;
+        }
+
+        #canvas {
+            box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.5);
+            position: absolute;
+            left: 10%;
+            top: 5%;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <script src="../assets/script/utils.js"></script>
+    <script src="../assets/components/Ball.js"></script>
+    <script>
+        let canvas = document.querySelector("#canvas"),
+            ctx = canvas.getContext("2d");
+        let w = canvas.width = 800, h = canvas.height = 600;
+        let mouse = utils.getOffset(canvas),
+            spring = 0.03,
+            g = 2.5,
+            firction = 0.95;
+        let ball = new Ball({
+            x: w / 2,
+            y: h / 2,
+            r: 35
+        }).render(ctx);
+
+
+        (function action() {
+            window.requestAnimationFrame(action);
+            ctx.clearRect(0, 0, w, h);
+
+            let dx = mouse.x - ball.x,
+                dy = mouse.y - ball.y,
+                ax = dx * spring,
+                ay = dy * spring;
+
+            ball.vx += ax;
+            ball.vy += ay;
+
+            ball.vx *= firction;
+            ball.vy *= firction;
+            ball.vy += g;
+
+            ball.x += ball.vx;
+            ball.y += ball.vy;
+
+            ctx.beginPath();
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = "rgba(255, 255, 255)";
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.lineTo(ball.x, ball.y);
+            ctx.stroke();
+
+
+            ball.render(ctx);
+        })()
+
+
+    </script>
+</body>
+
+</html>
