@@ -41,3 +41,11 @@ utils.randomColor = function () {
 utils.rectTest = function (rect1, rect2) {
     return (rect1.x + rect1.w >= rect2.x && rect1.x <= rect2.x + rect2.w && rect1.y + rect1.h >= rect2.y && rect1.y <= rect2.y + rect2.h);
 }
+
+utils.getDistance = function (x1, y1, x2, y2) {
+    return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+}
+
+utils.ballTest = function (ball1, ball2) {
+    return utils.getDistance(ball1.x, ball1.y, ball2.x, ball2.y) < ball1.r + ball2.r;
+}

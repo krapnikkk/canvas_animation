@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ballTest</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            height: 100%;
+        }
+
+        #canvas {
+            box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.5);
+            position: absolute;
+            left: 10%;
+            top: 5%;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <script src="../assets/components/Ball.js"></script>
+    <script src="../assets/script/utils.js"></script>
+    <script>
+        let canvas = document.querySelector("#canvas"),
+            ctx = canvas.getContext("2d");
+        let w = canvas.width = 800, h = canvas.height = 600;
+        const ball1 = new Ball({
+            x: w / 2,
+            y: h / 2
+        }), ball2 = new Ball({
+            fillStyle: "rgb('0,0,0')",
+            x: 300,
+            y: 50
+        });
+        let disX, disY, mouse = utils.getOffset(canvas), dragged1 = dragged2 = false;
+
+        canvas.addEventListener("mousedown", (e) => {
+            if (ball1.isPoint(mouse)) {
+                dragged1 = true;
+                disX = mouse.x - ball1.x;
+                disY = mouse.y - ball1.y;
+            }
+
+            if (ball2.isPoint(mouse)) {
+                dragged2 = true;
+                disX = mouse.x - ball2.x;
+                disY = mouse.y - ball2.y;
+            }
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if (dragged1) {
+                ball1.x = mouse.x - disX;
+                ball1.y = mouse.y - disY;
+            }
+
+            if (dragged2) {
+                ball2.x = mouse.x - disX;
+                ball2.y = mouse.y - disY;
+            }
+        });
+
+        canvas.addEventListener('mouseup', (e) => {
+            dragged1 = dragged2 = false;
+        });
+
+
+        (function action() {
+            window.requestAnimationFrame(action);
+
+            ctx.clearRect(0, 0, w, h);
+
+            if (utils.ballTest(ball1, ball2)) {
+                console.log("rect test!!!");
+            }
+
+            ball1.render(ctx);
+            ball2.render(ctx);
+        })()
+
+
+    </script>
+</body>
+
+</html>

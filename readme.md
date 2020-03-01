@@ -22,6 +22,7 @@
 | [多物体弹动动画](https://krapnikkk.github.io/canvas_animation/demo/multipleSpringBall.html) | 多物体之间弹动动画的实现 | [查看](./demo/multipleSpringBall.html) |
 | [矩形碰撞检测](https://krapnikkk.github.io/canvas_animation/demo/rectTest.html) | 矩形物体之间的碰撞检测 | [查看](./demo/rectTest.html) |
 | [多个矩形碰撞检测](https://krapnikkk.github.io/canvas_animation/demo/multiRectTest.html) | 多个矩形物体之间的碰撞检测 | [查看](./demo/multiRectTest.html) |
+| [圆形碰撞检测](https://krapnikkk.github.io/canvas_animation/demo/ballTest.html) | 圆形物体之间的碰撞检测 | [查看](./demo/ballTest.html) |
 
 [/placeholder]:p
 
