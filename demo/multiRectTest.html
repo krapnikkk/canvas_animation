@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>multiRectTest</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            height: 100%;
+        }
+
+        #canvas {
+            box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.5);
+            position: absolute;
+            left: 10%;
+            top: 5%;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <script src="../assets/components/Box.js"></script>
+    <script src="../assets/script/utils.js"></script>
+    <script>
+        let canvas = document.querySelector("#canvas"),
+            ctx = canvas.getContext("2d");
+        let w = canvas.width = 800, h = canvas.height = 600;
+
+        let boxes = [], g = 0.02, activeBox = createBox();
+
+        function createBox() {
+            const box = new Box({
+                x: utils.randomPoint([0, w]),
+                w: utils.randomPoint([20, 55]),
+                h: utils.randomPoint([20, 55]),
+                fillStyle: utils.randomColor()
+            });
+            boxes.push(box);
+            return box;
+        };
+
+        document.addEventListener('keydown', function (e) {
+            switch (e.keyCode) {
+                case 37:
+                    activeBox.x -= 1;
+                    break;
+                case 39:
+                    activeBox.x += 1;
+                    break;
+                case 40:
+                    g = 0.2;
+                    break;
+            }
+        });
+
+        document.addEventListener('keyup', function (e) {
+            g = 0.02;
+        });
+
+        (function action() {
+            window.requestAnimationFrame(action);
+
+            ctx.clearRect(0, 0, w, h);
+
+            if (activeBox.y < h - activeBox.h) {
+                activeBox.vy += g;
+                activeBox.y += activeBox.vy;
+            } else {
+                activeBox.y = h - activeBox.h;
+                activeBox = createBox();
+            }
+
+            if (activeBox.x < 0) {
+                activeBox.x = 0;
+            }
+
+            if (activeBox.x > w - activeBox.w) {
+                activeBox.x = w - activeBox.w;
+            }
+
+
+            boxes.forEach((item) => {
+                if (item != activeBox) {
+                    item.render(ctx);
+                    if (utils.rectTest(item, activeBox)) {
+                        activeBox.y = item.y - activeBox.h;
+                        activeBox = createBox();
+                    }
+                }
+            })
+            activeBox.render(ctx);
+        })()
+
+
+    </script>
+</body>
+
+</html>
