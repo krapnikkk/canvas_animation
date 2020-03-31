@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ballsHitTest</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            height: 100%;
+        }
+
+        #canvas {
+            box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.5);
+            position: absolute;
+            left: 10%;
+            top: 5%;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <script src="../assets/components/Ball.js"></script>
+    <script src="../assets/script/utils.js"></script>
+    <script>
+        let canvas = document.querySelector("#canvas"),
+            ctx = canvas.getContext("2d");
+        let w = canvas.width = 800, h = canvas.height = 600;
+
+        let balls = [], bounce = -0.5, num = 300, spring = 0.02;
+
+        let firstBallRadius = 100, bigBall = false;
+        let mouse = utils.getOffset(canvas);
+
+        for (let i = 0; i <= num; i++) {
+            balls.push(new Ball({
+                x: utils.randomPoint([0, w]),
+                y: utils.randomPoint([0, h]),
+                r: !i ? firstBallRadius : 10,
+                vx: utils.randomPoint([-3, 3]),
+                vy: utils.randomPoint([-3, 3]),
+                fillStyle: utils.randomColor()
+            }));
+        }
+
+        canvas.addEventListener("mousedown", (e) => {
+            firstBallRadius = firstBallRadius < h / 2 ? firstBallRadius + 50 : 100;
+            balls[0].r = firstBallRadius;
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            balls[0].x = mouse.x;
+            balls[0].y = mouse.y;
+        });
+
+        canvas.addEventListener('mouseup', (e) => {
+            bigBall = true;
+        });
+
+        canvas.addEventListener('mouseout', function (e) {
+            bigBall = false;
+        });
+
+        function checkHit(current, i) {
+            if (!i && !bigBall) return;
+            for (let j = i + 1; j < num; j++) {
+                const target = balls[j];
+                const dx = target.x - current.x, dy = target.y - current.y;
+                const dist = utils.getDistance(target.x, target.y, current.x, current.y);
+                const minDist = current.r - target.r;
+                if (minDist > dist) {
+                    const tx = current.x + dx / dist * minDist,
+                        ty = current.y + dy / dist * minDist,
+                        ax = (tx - target.x) * spring,
+                        ay = (ty - target.y) * spring;
+                    current.vx -= ax;
+                    current.vy -= ay;
+                    target.x += ax;
+                    target.y += ay;
+                }
+            }
+
+        }
+
+        function moveBall(ball, i) {
+            if (!i) return;
+            utils.checkBallBounce(ball, w, h, bounce);
+            ball.x += ball.vx;
+            ball.y += ball.vy;
+        }
+
+        function renderBall(ball, i) {
+            ball.render(ctx);
+        }
+
+
+        (function action() {
+            window.requestAnimationFrame(action);
+
+            ctx.clearRect(0, 0, w, h);
+
+            balls.forEach(moveBall);
+            balls.forEach(checkHit);
+            balls.forEach(renderBall);
+        })()
+
+
+    </script>
+</body>
+
+</html>
