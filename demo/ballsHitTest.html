@@ -32,7 +32,7 @@
 
         let balls = [], bounce = -0.5, num = 300, spring = 0.02;
 
-        let firstBallRadius = 100, bigBall = false;
+        let firstBallRadius = 100, onTouch = false;
         let mouse = utils.getOffset(canvas);
 
         for (let i = 0; i <= num; i++) {
@@ -40,13 +40,14 @@
                 x: utils.randomPoint([0, w]),
                 y: utils.randomPoint([0, h]),
                 r: !i ? firstBallRadius : 10,
-                vx: utils.randomPoint([-3, 3]),
-                vy: utils.randomPoint([-3, 3]),
+                vx: utils.randomPoint([-5, 5]),
+                vy: utils.randomPoint([-5, 5]),
                 fillStyle: utils.randomColor()
             }));
         }
 
         canvas.addEventListener("mousedown", (e) => {
+            onTouch = true;
             firstBallRadius = firstBallRadius < h / 2 ? firstBallRadius + 50 : 100;
             balls[0].r = firstBallRadius;
         });
@@ -56,21 +57,21 @@
             balls[0].y = mouse.y;
         });
 
-        canvas.addEventListener('mouseup', (e) => {
-            bigBall = true;
-        });
+        // canvas.addEventListener('mouseup', (e) => {
+        //     onTouch = false;
+        // });
 
         canvas.addEventListener('mouseout', function (e) {
-            bigBall = false;
+            onTouch = false;
         });
 
         function checkHit(current, i) {
-            if (!i && !bigBall) return;
+            if (!i && !onTouch) return;
             for (let j = i + 1; j < num; j++) {
                 const target = balls[j];
                 const dx = target.x - current.x, dy = target.y - current.y;
                 const dist = utils.getDistance(target.x, target.y, current.x, current.y);
-                const minDist = current.r - target.r;
+                const minDist = current.r + target.r;
                 if (minDist > dist) {
                     const tx = current.x + dx / dist * minDist,
                         ty = current.y + dy / dist * minDist,
@@ -78,8 +79,8 @@
                         ay = (ty - target.y) * spring;
                     current.vx -= ax;
                     current.vy -= ay;
-                    target.x += ax;
-                    target.y += ay;
+                    target.vx += ax;
+                    target.vy += ay;
                 }
             }
 
@@ -93,6 +94,7 @@
         }
 
         function renderBall(ball, i) {
+            if(!i) return;
             ball.render(ctx);
         }
 
@@ -102,8 +104,8 @@
 
             ctx.clearRect(0, 0, w, h);
 
-            balls.forEach(moveBall);
             balls.forEach(checkHit);
+            balls.forEach(moveBall);
             balls.forEach(renderBall);
         })()
 
