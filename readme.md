@@ -24,7 +24,7 @@
 | [多个矩形碰撞检测](https://krapnikkk.github.io/canvas_animation/demo/multiRectTest.html) | 多个矩形物体之间的碰撞检测 | [查看](./demo/multiRectTest.html) |
 | [圆形碰撞检测](https://krapnikkk.github.io/canvas_animation/demo/ballTest.html) | 圆形物体之间的碰撞检测 | [查看](./demo/ballTest.html) |
 | [多个圆形碰撞检测](https://krapnikkk.github.io/canvas_animation/demo/ballsHitTest.html) | 多个圆形物体之间的碰撞检测 | [查看](./demo/ballsHitTest.html) |
-| [光线投影法碰撞检测](https://krapnikkk.github.io/canvas_animation/demo/lightProjection.html) | 基于两个物体的速度向量的一元一次方程的交点范围的碰撞检测 | [查看](./demo/lightProjection.html) |
+| [光线投影法碰撞检测](https://krapnikkk.github.io/canvas_animation/demo/lightProjection.html) | 基于物体的速度向量的一元一次方程的坐标与静态物体交点范围的碰撞检测 | [查看](./demo/lightProjection.html) |
 
 
 [/placeholder]:p
